@@ -1,0 +1,22 @@
+
+                                ,--------- Run/Program Mode
+                               |  ,------- Save Data (Run Mode - on next clock pulse)
+            Address IN         | |  ,----- Save Data (Program Mode, right now)
+            ,-------,          | | |  ,--- CLK
+           |         | -   +   | | | |
+           n n n n n n n n n n n n n n 
+          -----------------------------
+          |                           |
+          D       atmega 328p         |
+          |                           |
+          -----------------------------
+           u u u u u u u u u u u u u u
+    reset--/ |       | + - | | | | \ |
+             \       /     | | | \  '|---- \
+              `-  --`      | | \  `--|----  } - Data In (5 upto 7)
+                \/         | |  `----|---- /
+Data In (0 upto 4)         | |       \
+                           | \        `-- Data  \
+                            \ `---------- Latch  }- Data OUT (Shift Register)
+                             `----------- Clock /
+
