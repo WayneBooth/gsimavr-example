@@ -15,4 +15,4 @@ Example use for the [gsimavr](https://github.com/WayneBooth/gsimavr) project
   * Right click on an input to turn it off,
   * Middle click on an input to connect it to a clock signal
 
-![ScreenShot](https://github.com/WayneBooth/gsimav/screenshot.png)
+![ScreenShot](https://github.com/WayneBooth/gsimavr/screenshot.png)
