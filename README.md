@@ -1,6 +1,6 @@
 # gsimavr-example
 
-Example use for the [gsimavr](../gsimavr/) project
+Example use for the [gsimavr](https://github.com/WayneBooth/gsimavr) project
 
 ## How to use
 
@@ -15,3 +15,4 @@ Example use for the [gsimavr](../gsimavr/) project
   * Right click on an input to turn it off,
   * Middle click on an input to connect it to a clock signal
 
+![ScreenShot](https://github.com/WayneBooth/gsimav/screenshot.png)
