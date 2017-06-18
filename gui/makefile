@@ -1,7 +1,7 @@
 
 PROJECTNAME=app
 PRJSRC=${PROJECTNAME}.c ac_input.c controller.c model.c view.c
-LIBS=-lm -lGL -lGLU -lglut -lelf -lsimavr -lm -lpthread
+LIBS=-lm -lGL -lGLU -lglut -lelf -lsimavr -lpthread -ldl
 
 #######################################
 
@@ -9,24 +9,32 @@ FIRMWARENAME:=$(shell grep -i '^PROJECTNAME=' ../makefile | sed -e 's/PROJECTNAM
 FIRMWAREMCU:=$(shell grep -i '^MCU=' ../makefile | sed -e 's/MCU=//')
 
 CC=gcc
-CFLAGS=-c -Wall -I. -I/usr/local/include/simavr/
-CFLAGS+=-O2 -g
+CLIBSBUILD?= 
+CFLAGSBUILD?=-O2 
+CFLAGS=-c -Wall -I. -I/usr/local/include/simavr/ -g
+CFLAGS+=${CFLAGSBUILD}
 CFLAGS+=-DFIRMWARENAME=${FIRMWARENAME}
 CFLAGS+=-DFIRMWAREMCU="${FIRMWAREMCU}"
 OBJ=$(PRJSRC:.c=.o)
 
 -include $(OBJS:.o=.d)
 
-run: ${PROJECTNAME}
+all: build
 	./${PROJECTNAME}
+
+build: ${PROJECTNAME}
 
 %.o: %.c
 	$(CC) ${CFLAGS} -o $@ $<
 	$(CC) -MM $(CFLAGS) $*.c > $*.d
 
-${PROJECTNAME}: ${OBJ}
-	$(CC) -o $@ ${OBJ} ${LIBS}
+${PROJECTNAME}: core ${OBJ}
+	$(CC) -o $@ ${OBJ} ${LIBS} ${CLIBSBUILD}
+
+core:
+	export CFLAGSBUILD='${CFLAGSBUILD}'
+	make -C cores
 
 clean:
-	rm -f ${PROJECTNAME} ${OBJ} *.d
-
+	rm -f ${PROJECTNAME} ${OBJ} *.d *.gcda *.gcno
+	make -C cores clean
