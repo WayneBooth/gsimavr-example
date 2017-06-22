@@ -1,0 +1,10 @@
+gui/*.d
+gui/*.o
+gui/app
+gui/cores/*.d
+gui/cores/*.so
+*.ee.hex
+*.elf
+*.elf.map
+*.hex
+*.o
