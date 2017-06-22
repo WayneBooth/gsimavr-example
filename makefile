@@ -65,9 +65,8 @@
 # Name of target controller 
 # (e.g. 'at90s8515', see the available avr-gcc mmcu 
 # options for possible values)
-#MCU=at90s2313
-MCU=attiny2313
-#MCU=attiny84
+MCU=attiny13
+#MCU=attiny2313
 #MCU=atmega328p
 
 # id to use with programmer
@@ -175,7 +174,7 @@ ASMFLAGS =-I. $(INC) -mmcu=$(MCU)        \
 		$(<:.S=.lst) $(<.s=.lst))
 
 # linker
-LDFLAGS=-Wl,-Map,$(TRG).map,-u,vfprintf -mmcu=$(MCU) \
+LDFLAGS=-Wl,-Map,$(TRG).map,-u -mmcu=$(MCU) \
 	-lm $(LIBS)
 
 ##### executables ####
@@ -284,6 +283,7 @@ $(TRG): $(OBJDEPS)
 #### Generating object files ####
 # object from C
 .c.o: 
+#	$(CC) $(CFLAGS) -dM -E - < /dev/null
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
