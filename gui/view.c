@@ -5,6 +5,7 @@
 #include <string.h>
 #include <GL/glut.h>
 
+#include "logger.h"
 #include "view.h"
 #include "model.h"
 #include "controller.h"
@@ -31,7 +32,7 @@ void drawPin( int pin, float x, float y, int colour ) {
 	else {
 		y -= 8;
 	}
-        glColor3f(0.6f,0.6f,0.6f);
+        glColor3f(0.6F,0.6F,0.6F);
 	glBegin(GL_POLYGON);
         	glVertex2f( x, y );
 	        glVertex2f( x+17, y );
@@ -49,7 +50,7 @@ void drawPin( int pin, float x, float y, int colour ) {
 	int len = snprintf(NULL, 0, "%d", pin);
 	char *st = (char *)malloc(len+1);
 	snprintf(st, len+1, "%d", pin);
-        glColor3f(0.4f,0.4f,0.4f);
+        glColor3f(0.4F,0.4F,0.4F);
 	glPushMatrix();
 	glTranslatef( x, y, 0 );
 	glScalef(0.08, -0.08, 0.08);
@@ -65,10 +66,10 @@ void drawPin( int pin, float x, float y, int colour ) {
 
 void drawWire( int pin, float x, float y, int colour ) {
 	if( colour ) {
-        	glColor3f(1.0f,0.2f,0.2f);
+        	glColor3f(1.0F,0.2F,0.2F);
 	}
 	else {
-        	glColor3f(0.0f,0.0f,0.0f);
+        	glColor3f(0.0F,0.0F,0.0F);
 	}
 	if( y > t ) {
 		y += 5;
@@ -77,12 +78,12 @@ void drawWire( int pin, float x, float y, int colour ) {
 		y -= 60;
 	}
 	x += 8;
-	glLineWidth(5.f);
+	glLineWidth(5.0F);
 	glBegin(GL_LINES);
         	glVertex2f( x, y );
         	glVertex2f( x, y + 55 );
 	glEnd();
-	glLineWidth(1.f);
+	glLineWidth(1.0F);
 }
 
 void drawArrow( float x, float y, int pointUp ) {
@@ -120,10 +121,10 @@ void drawArrow( float x, float y, int pointUp ) {
 void drawOutput( int pin, float x, float y, int colour ) {
 
 	if( colour ) {
-        	glColor3f(1.0f,0.3f,0.3f);
+        	glColor3f(1.0F,0.3F,0.3F);
 	}
 	else {
-        	glColor3f(0.7f,0.7f,0.7f);
+        	glColor3f(0.7F,0.7F,0.7F);
 	}
 	
 	drawArrow( x, y, 0 );
@@ -133,10 +134,10 @@ void drawOutput( int pin, float x, float y, int colour ) {
 
 void drawInputs( int pin, float x, float y, int colour ) {
 	if( colour ) {
-        	glColor3f(0.3f,0.3f,1.0f);
+        	glColor3f(0.3F,0.3F,1.0F);
 	}
 	else {
-        	glColor3f(0.7f,0.7f,0.7f);
+        	glColor3f(0.7F,0.7F,0.7F);
 	}
 
 	drawArrow( x, y, 1 );
@@ -184,7 +185,7 @@ void drawChip(void) {
 	float r;
 	int i;
 
-        glColor3f(0.3f,0.3f,0.3f);
+        glColor3f(0.3F,0.3F,0.3F);
         glBegin(GL_POLYGON);
                 glVertex2f( l,   t );
                 glVertex2f( l+w+20, t );
@@ -192,22 +193,26 @@ void drawChip(void) {
                 glVertex2f( l,   t+H );
         glEnd();
 
-        glColor3f(0.4f,0.4f,0.4f);
+        glColor3f(0.4F,0.4F,0.4F);
 	glBegin(GL_POLYGON);
-		for( r = 0 ; r <= PI ; r += PI/10 ) {
+		r = 0;
+		while( r <= PI ) {
 			glVertex2f( l + ( 14 * sin( r ) ), (t + (0.5 * H) + ( 14 * cos( r ) ) ) );
+			r += PI/10;
 		}
 	glEnd();
-        glColor3f(0.35f,0.35f,0.35f);
+        glColor3f(0.35F,0.35F,0.35F);
 	glBegin(GL_POLYGON);
-		for( r = 0 ; r <= 2*PI ; r += PI/10 ) {
+		r = 0;
+		while( r <= PI ) {
 			glVertex2f( l + (H * 0.15) + ( 6 * sin( r ) ), (t + (0.85 * H) + ( 6 * cos( r ) ) ) );
+			r += PI/10;
 		}
 	glEnd();
 
 	char *chipname = CHIPNAME();
 	int len = strlen( chipname );
-        glColor3f(0.6f,0.6f,0.6f);
+        glColor3f(0.6F,0.6F,0.6F);
 	glPushMatrix();
 	glTranslatef( l + (w / 4) , t + (H / 1.8), 0 );
 	glScalef(0.15, -0.15, 0.15);
@@ -244,7 +249,7 @@ void changeSize(int w, int h) {
 
 void renderScene(void) {
 
-	glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+	glClearColor(0.8F, 0.8F, 0.8F, 1.0F);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	drawChip();
@@ -270,6 +275,7 @@ void mouseFunc( int button, int state, int x, int y ) {
 
 			if( state == GLUT_UP ) {
 				if( buttonState[button] == i ) {
+					LOG( LOGGER_ERROR, "%d  -  %d\n", i, button );
 					changeInput( i, button );
 				}
 				buttonState[button] = 0;

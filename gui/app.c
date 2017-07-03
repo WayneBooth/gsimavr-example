@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
+#include "logger.h"
 #include "view.h"
 #include "model.h"
 #include "controller.h"
@@ -23,13 +24,17 @@ int main(int argc, char **argv) {
 	   }
 	}
 
+	app_verbosity = LOGGER_WARNING;
+
 	if( setupSimulator( useGdb ) ) { // Model
 		return 1;
 	}
 
 	setupInterface( argc, argv ); // View
 
-	setupConnectivity(); // Controller
+	if( setupConnectivity() ) { // Controller
+		return 1;
+	}
 
 	mainLoop(); // View
 

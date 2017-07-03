@@ -1,22 +1,13 @@
 #include <string.h>
 
+#include "core.h"
 #include "../model.h"
-
-char * core_chipname;
-int core_pins;
-
-uint32_t core_noConnection;
-uint32_t core_powerPins;
-uint32_t core_powerState;
-
-uint32_t core_ddrPins;
-uint32_t core_outputState;
-uint32_t core_inputState;
 
 void configureDevice() {
 
   core_chipname = "ATmega328P";
   core_pins = 28;
+  core_registers = "BCD";
 
   core_noConnection = 0b0000000100000000000000000001;
   core_powerPins  =   0b0000001010000000000011000000;
@@ -27,9 +18,14 @@ void configureDevice() {
   core_inputState =   0b0000000000000000000000000000;
 }
 
+char *get_registers() {
+  return core_registers;
+}
+
 char *get_chipname() {
   return core_chipname;
 }
+
 int core_reg_pin_to_location ( char * reg, int pin ) {
   if( strcmp( "B", reg ) == 0 ) {
     switch(pin) {

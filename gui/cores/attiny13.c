@@ -1,22 +1,13 @@
 #include <string.h>
 
+#include "core.h"
 #include "../model.h"
-
-char * core_chipname;
-int core_pins;
-
-uint32_t core_noConnection;
-uint32_t core_powerPins;
-uint32_t core_powerState;
-
-uint32_t core_ddrPins;
-uint32_t core_outputState;
-uint32_t core_inputState;
 
 void configureDevice() {
 
   core_chipname = "ATtiny13";
   core_pins = 8;
+  core_registers = "B";
 
   core_noConnection = 0b00000001;
   core_powerPins  =   0b10001000;
@@ -25,6 +16,10 @@ void configureDevice() {
   core_ddrPins =      0b01110110; // 1=output 0=input
   core_outputState =  0b00000000;
   core_inputState =   0b00000000;
+}
+
+char *get_registers() {
+  return core_registers;
 }
 
 char *get_chipname() {
